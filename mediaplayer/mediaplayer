@@ -32,6 +32,10 @@ use constant SPOTIFY_STR => 'spotify';
 
 my @metadata = ();
 my $player_arg = "";
+my $delta = $ENV{'delta'};
+if ($delta < 1 || $delta > 100) {
+    $delta = 1;
+}
 
 if ($BLOCK_INSTANCE) {
     $player_arg = "--player='$BLOCK_INSTANCE'";
@@ -48,9 +52,9 @@ sub buttons {
         } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
             system("mpc next &>/dev/null");
         } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
-            system("mpc volume +10 &>/dev/null");
+            system("mpc volume +$delta &>/dev/null");
         } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
-            system("mpc volume -10 &>/dev/null");
+            system("mpc volume -$delta &>/dev/null");
         }
     } elsif ($method eq 'cmus') {
         if ($ENV{'BLOCK_BUTTON'} == 1) {
@@ -70,9 +74,9 @@ sub buttons {
             system("playerctl $player_arg next");
             usleep(DELAY * 1000) if $BLOCK_INSTANCE eq SPOTIFY_STR;
         } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
-            system("playerctl $player_arg volume 0.01+");
+            system(sprintf("playerctl %s volume %s+", $player_arg, $delta/100));
         } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
-            system("playerctl $player_arg volume 0.01-");
+            system(sprintf("playerctl %s volume %s-", $player_arg, $delta/100));
         }
     } elsif ($method eq 'rhythmbox') {
         if ($ENV{'BLOCK_BUTTON'} == 1) {

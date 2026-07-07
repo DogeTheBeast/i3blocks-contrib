@@ -33,4 +33,5 @@ command=$SCRIPT_DIR/mediaplayer
 instance=spotify
 interval=5
 signal=10
+delta=10
 ```
