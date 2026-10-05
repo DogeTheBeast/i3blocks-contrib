@@ -1,0 +1,6 @@
+#!/bin/sh
+
+brightness=$(brightnessctl --device=$DEVICE -m | awk -F, '{print $4}')
+
+echo "⌨ $brightness"
+
